@@ -1,5 +1,7 @@
 package hw1;
 
+import hw2.SpaceNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -60,8 +62,11 @@ public class CustomerService {
             }
         }
 
-        if (spaceToReserve != null) {
-
+        // Throwing an exception if the space not found
+        try {
+            if (spaceToReserve == null) {
+                throw new SpaceNotFoundException("Error: Space with ID" + spaceID + "not available");
+            }
             System.out.println("Enter your name: ");
             String customerName = scanner.nextLine();
 
@@ -75,12 +80,13 @@ public class CustomerService {
             String endTime = scanner.nextLine();
 
             reservations.add(new Reservations(reservationIdCounter++, spaceID, customerName, date, startTime, endTime));
-            spaceToReserve.setAvailable(false); // if the space is unavailable
+            spaceToReserve.setAvailable(false);
 
             System.out.println("Reservation Made Successfully!");
-        } else {
-            System.out.println("There is no space with that ID or it is unavailable!");
+        } catch (SpaceNotFoundException e) {
+            System.out.println(e.getMessage());
         }
+
     }
 
     public void viewMyReservations() {
