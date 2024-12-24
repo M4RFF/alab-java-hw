@@ -1,12 +1,23 @@
 package hw1;
 
+import hw2.CoworkingStorage;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
-    AdminService adminService = new AdminService();
+    ArrayList<CoworkingSpace> spaces;
     CustomerService customerService = new CustomerService();
     Scanner scanner = new Scanner(System.in);
+    AdminService adminService = new AdminService(spaces);
+
+    // Loading spaces from the file coworking_spaces at startup
+    public Main() {
+        spaces = CoworkingStorage.loadSpacesFromFile();
+        adminService = new AdminService(spaces);
+        customerService = new CustomerService();
+    }
 
     public void run() {
 
@@ -28,7 +39,11 @@ public class Main {
             switch (choice) {
                 case 1 -> adminMenu();
                 case 2 -> customerMenu();
-                case 3 -> exit = true;
+                case 3 -> {
+                    CoworkingStorage.saveSpacesToFile(spaces); // Saving spaces before we exit the app
+                    exit = true;
+                    System.out.println("Exiting");
+                }
                 default -> System.out.println("Invalid choice!");
             }
         }
@@ -91,7 +106,6 @@ public class Main {
             }
         }
     }
-
 
     public static void main(String[] args) {
         Main app = new Main();

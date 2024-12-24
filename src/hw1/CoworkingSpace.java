@@ -1,7 +1,10 @@
 package hw1;
 
+import java.io.Serializable;
+import java.security.Provider;
+
 // CoworkingSpace: represents a coworking space
-public class CoworkingSpace {
+public class CoworkingSpace implements Serializable {
         // Using private fields to implement encapsulation
         private int spaceID;
         private String type;

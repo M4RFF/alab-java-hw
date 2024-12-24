@@ -1,5 +1,8 @@
 package hw1;
 
+import hw2.CoworkingStorage;
+import hw2.SpaceNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,16 +14,20 @@ public class AdminService {
     private  Scanner scanner;  // Scanner for input
 
 
-    public AdminService() {
+    public AdminService(ArrayList<CoworkingSpace> spaces) {
 
-        this.spaces = new ArrayList<>();
+        this.spaces = (spaces != null) ? spaces : new ArrayList<>();
         this.reservations = new ArrayList<>();
         this.scanner = new Scanner(System.in);
 
 
-        spaces.add(new CoworkingSpace(1, "Open Space", 1500.0, true));
-        spaces.add(new CoworkingSpace(2, "Private Room", 2500.0, true));
-        spaces.add(new CoworkingSpace(3, "Meeting Room", 3000.0, true));
+        if (this.spaces.isEmpty()) {
+            this.spaces.add(new CoworkingSpace(1, "Open Space", 1500.0, true));
+            this.spaces.add(new CoworkingSpace(2, "Private Room", 2500.0, true));
+            this.spaces.add(new CoworkingSpace(3, "Meeting Room", 3000.0, true));
+            System.out.println("Default coworking spaces added.");
+            CoworkingStorage.saveSpacesToFile(this.spaces);
+        }
     }
 
 
@@ -32,6 +39,14 @@ public class AdminService {
         System.out.println(addPrompt);
         int ID = scanner.nextInt();
         scanner.nextLine();
+
+        // Checking for duplicate space ID
+        for (CoworkingSpace space : spaces) {
+            if (space.getSpaceID() == ID) {
+                System.out.println("Space with that ID" + ID + "already exists!");
+                return;
+            }
+        }
 
         String typePrompt = """
                 Would you like Open Space or Private Room or Meeting Room?: 
@@ -47,8 +62,11 @@ public class AdminService {
         scanner.nextLine();
 
 
-        spaces.add(new CoworkingSpace(ID, type, price, true));
-        System.out.println("Coworking Space Added Successfully!");
+        CoworkingSpace newSpace = new CoworkingSpace(ID, type, price, true);
+        spaces.add(newSpace);
+        CoworkingStorage.saveSpacesToFile(spaces);
+
+        CoworkingStorage.saveSpacesToFile(spaces);
     }
 
     public void removeSpace() {
@@ -68,11 +86,15 @@ public class AdminService {
             }
         }
 
-        if (spaceToRemove != null) {
+        // Throwing an exception if the space not found
+        try {
+            if(spaceToRemove == null) {
+                throw new SpaceNotFoundException("Space with ID: " + ID + " doesn't exist!");
+            }
             spaces.remove(spaceToRemove);
             System.out.println("Coworking Space Removed Successfully!");
-        } else {
-            System.out.println("Coworking Space with that ID does not exist!");
+        } catch (SpaceNotFoundException e) {
+            System.out.println(e.getMessage());
         }
     }
 
