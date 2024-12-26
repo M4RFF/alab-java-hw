@@ -13,6 +13,7 @@ public class CustomClassLoader extends ClassLoader {
         this.classPath = classPath;
     }
 
+
     @Override // overriding findClass to load class by name
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         byte[] classData = loadClassData(name);
@@ -22,6 +23,7 @@ public class CustomClassLoader extends ClassLoader {
         }
         return defineClass(name, classData, 0, classData.length); // defining the class in memory
     }
+
 
     private byte[] loadClassData(String className) {
         String path = classPath + File.separator + className.replace('.', File.separatorChar) + ".class";
