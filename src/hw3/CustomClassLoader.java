@@ -14,7 +14,7 @@ public class CustomClassLoader extends ClassLoader {
     }
 
 
-    @Override // overriding findClass to load class by name
+    @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         byte[] classData = loadClassData(name);
 
