@@ -1,0 +1,5 @@
+1,Open Space,1500.0,true
+2,Private Room,2500.0,true
+3,Meeting Room,3000.0,true
+4,private,4000.0,true
+5,meeting,5000.0,true
