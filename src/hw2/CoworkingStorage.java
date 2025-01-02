@@ -3,6 +3,7 @@ package hw2;
 import hw1.CoworkingSpace;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CoworkingStorage {
     private static final String FILE_NAME = "coworking_spaces.txt";
@@ -75,5 +76,19 @@ public class CoworkingStorage {
             System.out.println("No existing space file found!");
         }
         return spaces;
+    }
+
+    public static <T> void printArrayList(ArrayList<T> list) {
+        if (list.isEmpty()) {
+            System.out.println("List is empty!");
+        } else {
+            list.forEach(System.out::println);
+        }
+    }
+
+    public static <K, V> void printMap(HashMap<K, V> map) {
+        for (var entry : map.entrySet()) {
+            System.out.println("ID: " + entry.getKey() + " -> " + entry.getValue());
+        }
     }
 }
