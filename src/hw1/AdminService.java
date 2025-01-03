@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class AdminService <T extends Reservations>{
 
-    private  ArrayList<CoworkingSpace> spaces;  // List of coworking spaces
+    private  ArrayList<CoworkingSpace> spaces;
     private HashMap<Integer, T> reservations;  // Using HashMap for managing reservations
     private  Scanner scanner;  // Scanner for input
 
