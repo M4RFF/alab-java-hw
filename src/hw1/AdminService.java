@@ -4,20 +4,21 @@ import hw2.CoworkingStorage;
 import hw2.SpaceNotFoundException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 
-public class AdminService {
+public class AdminService <T extends Reservations>{
 
-    private  ArrayList<CoworkingSpace> spaces;  // List of coworking spaces
-    private  ArrayList<Reservations> reservations;  // List of reservations
+    private  ArrayList<CoworkingSpace> spaces;
+    private HashMap<Integer, T> reservations;  // Using HashMap for managing reservations
     private  Scanner scanner;  // Scanner for input
 
 
     public AdminService(ArrayList<CoworkingSpace> spaces) {
 
         this.spaces = (spaces != null) ? spaces : new ArrayList<>();
-        this.reservations = new ArrayList<>();
+        this.reservations = new HashMap<>(); // Initializing HashMap
         this.scanner = new Scanner(System.in);
 
 
@@ -65,8 +66,6 @@ public class AdminService {
         CoworkingSpace newSpace = new CoworkingSpace(ID, type, price, true);
         spaces.add(newSpace);
         CoworkingStorage.saveSpacesToFile(spaces);
-
-        CoworkingStorage.saveSpacesToFile(spaces);
     }
 
     public void removeSpace() {
@@ -76,6 +75,7 @@ public class AdminService {
                 """;
         System.out.println(removePrompt);
         int ID = scanner.nextInt();
+        scanner.nextLine();
 
         CoworkingSpace spaceToRemove = null;
 
@@ -92,6 +92,7 @@ public class AdminService {
                 throw new SpaceNotFoundException("Space with ID: " + ID + " doesn't exist!");
             }
             spaces.remove(spaceToRemove);
+            CoworkingStorage.saveSpacesToFile(spaces);
             System.out.println("Coworking Space Removed Successfully!");
         } catch (SpaceNotFoundException e) {
             System.out.println(e.getMessage());
@@ -103,10 +104,8 @@ public class AdminService {
         if (reservations.isEmpty()) {
             System.out.println("There are no reservations yet!");
         } else {
-            for (Reservations reservation : reservations) {
-                System.out.println(reservation.displayInfo());
+            CoworkingStorage.printMap(reservations);
             }
         }
     }
 
-}

@@ -1,7 +1,7 @@
 package hw1;
 
 import java.io.Serializable;
-import java.security.Provider;
+
 
 // CoworkingSpace: represents a coworking space
 public class CoworkingSpace implements Serializable {
