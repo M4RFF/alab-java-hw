@@ -5,6 +5,7 @@ import hw2.SpaceNotFoundException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.Scanner;
 
 
@@ -41,13 +42,14 @@ public class AdminService <T extends Reservations>{
         int ID = scanner.nextInt();
         scanner.nextLine();
 
-        // Checking for duplicate space ID (Using anyMatch with Stream API)
-        boolean exists = spaces.stream()
-                .anyMatch(space -> space.getSpaceID() == ID);
+        // Checking for duplicate space ID (Using Optional with Stream API)
+        Optional<CoworkingSpace> existSpace = spaces.stream()
+                .filter(space -> space.getSpaceID() == ID)
+                .findFirst();
 
-        if (exists) {
+        existSpace.ifPresent(space -> {
             System.out.println("Space with this ID already exists!");
-        }
+        });
 
         String typePrompt = """
                 Would you like Open Space or Private Room or Meeting Room?: 

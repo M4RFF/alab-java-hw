@@ -18,7 +18,6 @@ public class CoworkingSpace implements Serializable {
         this.available = available;
     }
 
-    // Getters
     public int getSpaceID() {
         return spaceID;
     }
@@ -32,7 +31,6 @@ public class CoworkingSpace implements Serializable {
         return available;
     }
 
-    // Setters
     public void setSpaceID(int spaceID) {
         this.spaceID = spaceID;
     }
