@@ -54,3 +54,4 @@ public class CoworkingSpace implements Serializable {
                 " Available: " + available;
     }
 }
+

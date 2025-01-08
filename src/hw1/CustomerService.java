@@ -3,12 +3,13 @@ package hw1;
 import hw2.SpaceNotFoundException;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 
-public class CustomerService {
+public class CustomerService <T extends Reservations> {
 
     private ArrayList<CoworkingSpace> spaces;  // List of coworking spaces
-    private  ArrayList<Reservations> reservations;  // List of reservations
+    private  ArrayList<T> reservations;  // List of reservations
     private Scanner scanner;  // Scanner for input
     private int reservationIdCounter = 1; // generate a unique reservation ID for each reservation
 
@@ -20,32 +21,21 @@ public class CustomerService {
         this.reservations = new ArrayList<>();
         this.scanner = new Scanner(System.in);
 
-
-        spaces.add(new CoworkingSpace(1, "Open Space", 1500.0, true));
-        spaces.add(new CoworkingSpace(2, "Private Room", 2500.0, true));
-        spaces.add(new CoworkingSpace(3, "Meeting Room", 3000.0, true));
     }
-
-
 
     public void findSpace() {
 
         boolean found = false;
 
-        for (CoworkingSpace space : spaces) {
-            if (space.isAvailable()) {
-                System.out.println("ID: " + space.getSpaceID() +
-                        " Type: " + space.getType() +
-                        " Price: " + space.getPrice()
+        // Using Stream API for iteration and filtering and also finding coworking space
+        spaces.stream().filter(CoworkingSpace::isAvailable)
+                .forEach(space -> System.out.println(
+                        "ID: " + space.getSpaceID() +
+                                " Type: " + space.getType() +
+                                " Price: " + space.getPrice())
                 );
-
-                found = true;
-            }
-        }
-
-        if (!found) {
-            System.out.println("There are no available spaces!");
-        }
+        if (spaces.stream().noneMatch(CoworkingSpace::isAvailable)) {
+            System.out.println("There are no available spaces!");}
     }
 
     public void makeReservation() {
@@ -54,19 +44,12 @@ public class CustomerService {
         int spaceID = scanner.nextInt();
         scanner.nextLine();
 
-        CoworkingSpace spaceToReserve = null;
-        for (CoworkingSpace space : spaces) {
-            if (space.getSpaceID() == spaceID && space.isAvailable()) {
-                spaceToReserve = space;
-                break;
-            }
-        }
+        // Using Optional, Stream API and Improving Null Handling
+        Optional<CoworkingSpace> spaceToReserve = spaces.stream()
+                .filter(space -> space.getSpaceID() == spaceID && space.isAvailable())
+                .findFirst();
 
-        // Throwing an exception if the space not found
-        try {
-            if (spaceToReserve == null) {
-                throw new SpaceNotFoundException("Error: Space with ID" + spaceID + "not available");
-            }
+        spaceToReserve.ifPresentOrElse(space -> {
             System.out.println("Enter your name: ");
             String customerName = scanner.nextLine();
 
@@ -79,14 +62,17 @@ public class CustomerService {
             System.out.println("Enter the end time (HH:MM): ");
             String endTime = scanner.nextLine();
 
-            reservations.add(new Reservations(reservationIdCounter++, spaceID, customerName, date, startTime, endTime));
-            spaceToReserve.setAvailable(false);
+            reservations.add((T) new Reservations(reservationIdCounter++, spaceID, customerName, date, startTime, endTime));
+            space.setAvailable(false);
 
             System.out.println("Reservation Made Successfully!");
-        } catch (SpaceNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-
+        }, () -> {
+            try {
+                throw new SpaceNotFoundException("Space with this ID" + spaceID + "Not Found!");
+            } catch (SpaceNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     public void viewMyReservations() {
