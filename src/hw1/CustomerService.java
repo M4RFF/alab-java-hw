@@ -3,6 +3,7 @@ package hw1;
 import hw2.SpaceNotFoundException;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class CustomerService <T extends Reservations> {
@@ -22,26 +23,19 @@ public class CustomerService <T extends Reservations> {
 
     }
 
-
-
     public void findSpace() {
 
         boolean found = false;
 
-        for (CoworkingSpace space : spaces) {
-            if (space.isAvailable()) {
-                System.out.println("ID: " + space.getSpaceID() +
-                        " Type: " + space.getType() +
-                        " Price: " + space.getPrice()
+        // Using Stream API for iteration and filtering and also finding coworking space
+        spaces.stream().filter(CoworkingSpace::isAvailable)
+                .forEach(space -> System.out.println(
+                        "ID: " + space.getSpaceID() +
+                                " Type: " + space.getType() +
+                                " Price: " + space.getPrice())
                 );
-
-                found = true;
-            }
-        }
-
-        if (!found) {
-            System.out.println("There are no available spaces!");
-        }
+        if (spaces.stream().noneMatch(CoworkingSpace::isAvailable)) {
+            System.out.println("There are no available spaces!");}
     }
 
     public void makeReservation() {
@@ -50,19 +44,12 @@ public class CustomerService <T extends Reservations> {
         int spaceID = scanner.nextInt();
         scanner.nextLine();
 
-        CoworkingSpace spaceToReserve = null;
-        for (CoworkingSpace space : spaces) {
-            if (space.getSpaceID() == spaceID && space.isAvailable()) {
-                spaceToReserve = space;
-                break;
-            }
-        }
+        // Using Optional, Stream API and Improving Null Handling
+        Optional<CoworkingSpace> spaceToReserve = spaces.stream()
+                .filter(space -> space.getSpaceID() == spaceID && space.isAvailable())
+                .findFirst();
 
-        // Throwing an exception if the space not found
-        try {
-            if (spaceToReserve == null) {
-                throw new SpaceNotFoundException("Error: Space with ID" + spaceID + "not available");
-            }
+        spaceToReserve.ifPresentOrElse(space -> {
             System.out.println("Enter your name: ");
             String customerName = scanner.nextLine();
 
@@ -76,13 +63,16 @@ public class CustomerService <T extends Reservations> {
             String endTime = scanner.nextLine();
 
             reservations.add((T) new Reservations(reservationIdCounter++, spaceID, customerName, date, startTime, endTime));
-            spaceToReserve.setAvailable(false);
+            space.setAvailable(false);
 
             System.out.println("Reservation Made Successfully!");
-        } catch (SpaceNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-
+        }, () -> {
+            try {
+                throw new SpaceNotFoundException("Space with this ID" + spaceID + "Not Found!");
+            } catch (SpaceNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     public void viewMyReservations() {

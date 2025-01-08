@@ -5,6 +5,7 @@ import hw2.SpaceNotFoundException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.Scanner;
 
 
@@ -41,13 +42,14 @@ public class AdminService <T extends Reservations>{
         int ID = scanner.nextInt();
         scanner.nextLine();
 
-        // Checking for duplicate space ID
-        for (CoworkingSpace space : spaces) {
-            if (space.getSpaceID() == ID) {
-                System.out.println("Space with that ID" + ID + "already exists!");
-                return;
-            }
-        }
+        // Checking for duplicate space ID (Using Optional with Stream API)
+        Optional<CoworkingSpace> existSpace = spaces.stream()
+                .filter(space -> space.getSpaceID() == ID)
+                .findFirst();
+
+        existSpace.ifPresent(space -> {
+            System.out.println("Space with this ID already exists!");
+        });
 
         String typePrompt = """
                 Would you like Open Space or Private Room or Meeting Room?: 
@@ -77,14 +79,11 @@ public class AdminService <T extends Reservations>{
         int ID = scanner.nextInt();
         scanner.nextLine();
 
-        CoworkingSpace spaceToRemove = null;
-
-        for (CoworkingSpace space : spaces) {
-            if (space.getSpaceID() == ID) {
-                spaceToRemove = space;
-                break;
-            }
-        }
+        // Using Lambda for simplifying conditions
+        CoworkingSpace spaceToRemove = spaces.stream()
+                .filter(space -> space.getSpaceID() == ID)
+                .findFirst()
+                .orElse(null);
 
         // Throwing an exception if the space not found
         try {
@@ -105,7 +104,7 @@ public class AdminService <T extends Reservations>{
             System.out.println("There are no reservations yet!");
         } else {
             CoworkingStorage.printMap(reservations);
-            }
         }
     }
+}
 

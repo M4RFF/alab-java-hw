@@ -4,6 +4,7 @@ import hw1.CoworkingSpace;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
 public class CoworkingStorage {
     private static final String FILE_NAME = "coworking_spaces.txt";
@@ -52,29 +53,22 @@ public class CoworkingStorage {
     // Load coworking spaces from a file
     public static ArrayList<CoworkingSpace> loadSpacesFromFile() {
         ArrayList<CoworkingSpace> spaces = new ArrayList<>();
-        File file = new File(FILE_NAME);
 
-        if (file.exists()) {
-            try (BufferedReader br = new BufferedReader(new FileReader(FILE_NAME))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    String[] data = line.split(",");
-                    if (data.length == 4) {
-                        spaces.add(new CoworkingSpace(
-                                Integer.parseInt(data[0]),
-                                data[1],
-                                Double.parseDouble(data[2]),
-                                Boolean.parseBoolean(data[3])
-                        ));
-                    }
-                }
-                System.out.println("Spaces loaded successfully!");
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Error loading spaces: " + e.getMessage());
-            }
-        } else {
-            System.out.println("No existing space file found!");
-        }
+        // Using Optional For File Loading
+        Optional<File> file = Optional.ofNullable(new File(FILE_NAME));
+
+        file.filter(File::exists)
+                .ifPresentOrElse( // Executes file loading logic, if not, then handles the absence of the file
+                        f -> {
+                            try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+                                System.out.println("Spaces Loaded successfully!");
+                            } catch (IOException e) {
+                                System.out.println("Error loading spaces: " + e.getMessage());
+                            }
+                        },
+                        () -> System.out.println("No existing space file found!")
+                );
+
         return spaces;
     }
 
