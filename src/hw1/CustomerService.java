@@ -5,10 +5,10 @@ import hw2.SpaceNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CustomerService <T extends Reservations> {
+public class CustomerService {
 
     private ArrayList<CoworkingSpace> spaces;  // List of coworking spaces
-    private  ArrayList<T> reservations;  // List of reservations
+    private  ArrayList<Reservations> reservations;  // List of reservations
     private Scanner scanner;  // Scanner for input
     private int reservationIdCounter = 1; // generate a unique reservation ID for each reservation
 
@@ -20,6 +20,10 @@ public class CustomerService <T extends Reservations> {
         this.reservations = new ArrayList<>();
         this.scanner = new Scanner(System.in);
 
+
+        spaces.add(new CoworkingSpace(1, "Open Space", 1500.0, true));
+        spaces.add(new CoworkingSpace(2, "Private Room", 2500.0, true));
+        spaces.add(new CoworkingSpace(3, "Meeting Room", 3000.0, true));
     }
 
 
@@ -75,7 +79,7 @@ public class CustomerService <T extends Reservations> {
             System.out.println("Enter the end time (HH:MM): ");
             String endTime = scanner.nextLine();
 
-            reservations.add((T) new Reservations(reservationIdCounter++, spaceID, customerName, date, startTime, endTime));
+            reservations.add(new Reservations(reservationIdCounter++, spaceID, customerName, date, startTime, endTime));
             spaceToReserve.setAvailable(false);
 
             System.out.println("Reservation Made Successfully!");

@@ -3,6 +3,7 @@ package hw1;
 import hw2.CoworkingStorage;
 import hw3.CustomClassLoader;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -120,14 +121,27 @@ public class Main {
 
             Class<?> loadedClass = loader.loadClass(className);
 
-            Object plugin = loadedClass.getDeclaredConstructor().newInstance();
-            loadedClass.getMethod("run").invoke(plugin);
+            // Using Optional and Lambda for a Plugin Loading
+            Optional.of(loadedClass) // wrapping the loaded class
+                    .map(clc -> {
+                        try {
+                            return clc.getDeclaredConstructor().newInstance(); // if class exists, then creating an instance
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
 
+                    })
+                    .ifPresent(plugin -> { // invoking a method, if it's present
+                        try {
+                            loadedClass.getMethod("run").invoke(plugin);
+                        } catch (Exception e) {
+                            System.out.println("Error running plugin: " + e.getMessage());
+                        }
+                    });
         } catch (Exception e) {
             System.out.println("Error loading plugin: " + e.getMessage());
         }
     }
-
 
     public static void main(String[] args) {
         Main app = new Main();
