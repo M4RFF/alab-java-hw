@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/alab-java-hw.iml" filepath="$PROJECT_DIR$/alab-java-hw.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/alab-java-hw.iml" filepath="$PROJECT_DIR$/.idea/modules/alab-java-hw.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/alab-java-hw.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/alab-java-hw.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/alab-java-hw.main.iml" filepath="$PROJECT_DIR$/.idea/modules/alab-java-hw.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/alab-java-hw.test.iml" filepath="$PROJECT_DIR$/.idea/modules/alab-java-hw.test.iml" />
     </modules>
   </component>
 </project>
