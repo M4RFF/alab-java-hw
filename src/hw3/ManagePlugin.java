@@ -1,4 +1,4 @@
-package hw3;
+package src.hw3;
 
 public class ManagePlugin {
     public ManagePlugin() {

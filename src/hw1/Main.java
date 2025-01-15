@@ -1,7 +1,7 @@
-package hw1;
+package src.hw1;
 
-import hw2.CoworkingStorage;
-import hw3.CustomClassLoader;
+import src.hw2.CoworkingStorage;
+import src.hw3.CustomClassLoader;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;

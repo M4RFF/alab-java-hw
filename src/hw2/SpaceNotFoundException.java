@@ -1,4 +1,4 @@
-package hw2;
+package src.hw2;
 
 // Create Custom Exception
 public class SpaceNotFoundException extends Exception {

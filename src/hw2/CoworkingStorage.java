@@ -1,6 +1,6 @@
-package hw2;
+package src.hw2;
 
-import hw1.CoworkingSpace;
+import src.hw1.CoworkingSpace;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;

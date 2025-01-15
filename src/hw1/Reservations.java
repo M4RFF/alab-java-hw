@@ -1,4 +1,4 @@
-package hw1;
+package src.hw1;
 
 // Reservations: represents a reservation
 public class Reservations {

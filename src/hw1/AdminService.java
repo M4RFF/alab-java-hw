@@ -1,7 +1,7 @@
-package hw1;
+package src.hw1;
 
-import hw2.CoworkingStorage;
-import hw2.SpaceNotFoundException;
+import src.hw2.CoworkingStorage;
+import src.hw2.SpaceNotFoundException;
 
 import java.util.ArrayList;
 import java.util.HashMap;

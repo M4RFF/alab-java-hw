@@ -1,4 +1,4 @@
-package hw3;
+package src.hw3;
 
 import java.io.File;
 import java.io.FileInputStream;
