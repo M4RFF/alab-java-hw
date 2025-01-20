@@ -1,4 +1,4 @@
-package src.hw2;
+package src.main.model;
 
 // Create Custom Exception
 public class SpaceNotFoundException extends Exception {

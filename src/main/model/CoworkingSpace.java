@@ -1,4 +1,4 @@
-package src.hw1;
+package src.main.model;
 
 import java.io.Serializable;
 

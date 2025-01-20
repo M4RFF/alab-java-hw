@@ -1,4 +1,4 @@
-package src.hw3;
+package src.main.model;
 
 import java.io.File;
 import java.io.FileInputStream;

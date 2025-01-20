@@ -1,10 +1,10 @@
-package src.test.hw1Test;
+package src.tests.serviceTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import src.hw1.AdminService;
-import src.hw1.CoworkingSpace;
-import src.hw1.Reservations;
+import src.main.service.AdminService;
+import src.main.model.CoworkingSpace;
+import src.main.model.Reservations;
 
 import java.util.ArrayList;
 

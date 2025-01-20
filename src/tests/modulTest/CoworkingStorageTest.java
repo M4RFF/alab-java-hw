@@ -1,9 +1,9 @@
-package src.test.hw2Test;
+package src.tests.modulTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import src.hw1.CoworkingSpace;
-import src.hw2.CoworkingStorage;
+import src.main.model.CoworkingSpace;
+import src.main.model.CoworkingStorage;
 
 import java.util.ArrayList;
 

@@ -1,9 +1,9 @@
-package src.test.hw1Test;
+package src.tests.serviceTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import src.hw1.CoworkingSpace;
-import src.hw1.CustomerService;
+import src.main.model.CoworkingSpace;
+import src.main.service.CustomerService;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CustomerServiceTest {
 
     private CustomerService customerService;
-//    private ArrayList<CoworkingSpace> spaces;
 
     @BeforeEach
     void setUp() {

@@ -1,7 +1,7 @@
-package src.test.hw1Test;
+package src.tests.modulTest;
 
 import org.junit.jupiter.api.Test;
-import src.hw1.Reservations;
+import src.main.model.Reservations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

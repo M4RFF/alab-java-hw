@@ -1,4 +1,4 @@
-package src.hw3;
+package src.main.model;
 
 public class ManagePlugin {
     public ManagePlugin() {
