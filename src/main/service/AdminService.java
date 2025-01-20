@@ -1,7 +1,9 @@
-package hw1;
+package src.main.service;
 
-import hw2.CoworkingStorage;
-import hw2.SpaceNotFoundException;
+import src.main.model.CoworkingSpace;
+import src.main.model.Reservations;
+import src.main.model.CoworkingStorage;
+import src.main.model.SpaceNotFoundException;
 
 import java.util.ArrayList;
 import java.util.HashMap;

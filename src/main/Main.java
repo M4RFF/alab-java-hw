@@ -1,7 +1,11 @@
-package hw1;
+package src.main;
 
-import hw2.CoworkingStorage;
-import hw3.CustomClassLoader;
+import src.main.model.CoworkingSpace;
+import src.main.model.CoworkingStorage;
+import src.main.model.CustomClassLoader;
+import src.main.service.AdminService;
+import src.main.service.CustomerService;
+
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
