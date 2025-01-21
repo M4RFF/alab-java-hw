@@ -1,14 +1,12 @@
 package src.main.service;
 
+import src.main.DataAccessObjects.CoworkingSpaceSoC;
 import src.main.model.CoworkingSpace;
 import src.main.model.Reservations;
 import src.main.model.CoworkingStorage;
 import src.main.model.SpaceNotFoundException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class AdminService <T extends Reservations>{
@@ -16,13 +14,14 @@ public class AdminService <T extends Reservations>{
     private  ArrayList<CoworkingSpace> spaces;
     private HashMap<Integer, T> reservations;  // Using HashMap for managing reservations
     private  Scanner scanner;  // Scanner for input
-
+    private CoworkingSpaceSoC coworkingSpaceSoC;
 
     public AdminService(ArrayList<CoworkingSpace> spaces) {
 
         this.spaces = (spaces != null) ? spaces : new ArrayList<>();
         this.reservations = new HashMap<>(); // Initializing HashMap
         this.scanner = new Scanner(System.in);
+        this.coworkingSpaceSoC = new CoworkingSpaceSoC();
 
 
         if (this.spaces.isEmpty()) {
@@ -106,6 +105,15 @@ public class AdminService <T extends Reservations>{
             System.out.println("There are no reservations yet!");
         } else {
             CoworkingStorage.printMap(reservations);
+        }
+    }
+
+    public void viewSpace() {
+        List<CoworkingSpace> spaces = coworkingSpaceSoC.getSpaces();
+        if(spaces.isEmpty()) {
+            System.out.println("There is no available coworking spaces!");
+        } else {
+            spaces.forEach(space -> System.out.println(space.displayInfo()));
         }
     }
 }
