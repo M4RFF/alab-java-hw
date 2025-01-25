@@ -1,4 +1,4 @@
-package src.main.model;
+package model;
 
 // Create Custom Exception
 public class SpaceNotFoundException extends Exception {

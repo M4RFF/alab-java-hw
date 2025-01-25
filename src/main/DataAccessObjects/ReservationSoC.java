@@ -1,8 +1,8 @@
-package src.main.DataAccessObjects;
+package DataAccessObjects;
 
 
-import src.main.DB.DBmanager;
-import src.main.model.Reservations;
+import DB.DBmanager;
+import model.Reservations;
 
 import java.sql.*;
 import java.util.ArrayList;

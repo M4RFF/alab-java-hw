@@ -1,10 +1,10 @@
 package src.main;
 
-import src.main.model.CoworkingSpace;
-import src.main.model.CoworkingStorage;
-import src.main.model.CustomClassLoader;
-import src.main.service.AdminService;
-import src.main.service.CustomerService;
+import model.CoworkingSpace;
+import model.CoworkingStorage;
+import model.CustomClassLoader;
+import service.AdminService;
+import service.CustomerService;
 
 import java.util.ArrayList;
 import java.util.Optional;

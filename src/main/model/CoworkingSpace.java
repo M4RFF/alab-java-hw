@@ -1,14 +1,24 @@
-package src.main.model;
+package model;
 
 import java.io.Serializable;
+import jakarta.persistence.*;
 
-
-// CoworkingSpace: represents a coworking space
+@Entity
+@Table(name = "coworking_spaces")
 public class CoworkingSpace implements Serializable {
     // Using private fields to implement encapsulation
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "space_id")
     private int spaceID;
+
+    @Column(name = "type", nullable = false)
     private String type;
+
+    @Column(name = "price", nullable = false)
     private double price;
+
+    @Column(name = "available", nullable = false)
     private boolean available;
 
     public CoworkingSpace(int spaceID, String type, double price, boolean available) {

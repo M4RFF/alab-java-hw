@@ -1,8 +1,8 @@
-package src.main.service;
+package service;
 
-import src.main.model.CoworkingSpace;
-import src.main.model.Reservations;
-import src.main.model.SpaceNotFoundException;
+import model.CoworkingSpace;
+import model.Reservations;
+import model.SpaceNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Optional;

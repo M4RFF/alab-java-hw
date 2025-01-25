@@ -1,7 +1,7 @@
-package src.main.DataAccessObjects;
+package DataAccessObjects;
 
-import src.main.DB.DBmanager;
-import src.main.model.CoworkingSpace;
+import DB.DBmanager;
+import model.CoworkingSpace;
 
 import java.sql.*;
 import java.util.ArrayList;
