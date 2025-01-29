@@ -1,38 +1,39 @@
-package src.main.service;
+package service;
 
-import src.main.DataAccessObjects.CoworkingSpaceSoC;
-import src.main.model.CoworkingSpace;
-import src.main.model.Reservations;
-import src.main.model.CoworkingStorage;
-import src.main.model.SpaceNotFoundException;
+import DataAccessObjects.CoworkingSpaceSoC;
+import model.CoworkingSpace;
+import model.Reservations;
+import model.CoworkingStorage;
+import model.SpaceNotFoundException;
+import repository.CoworkingSpaceRepo;
 
 import java.util.*;
 
 
 public class AdminService <T extends Reservations>{
 
-    private  ArrayList<CoworkingSpace> spaces;
+    private List<CoworkingSpace> spaces;
     private HashMap<Integer, T> reservations;  // Using HashMap for managing reservations
-    private  Scanner scanner;  // Scanner for input
-    private CoworkingSpaceSoC coworkingSpaceSoC;
+    private Scanner scanner;  // Scanner for input
+    private CoworkingSpaceRepo coworkingSpaceRepo;
 
     public AdminService(ArrayList<CoworkingSpace> spaces) {
 
-        this.spaces = (spaces != null) ? spaces : new ArrayList<>();
+        this.coworkingSpaceRepo = new CoworkingSpaceRepo();
         this.reservations = new HashMap<>(); // Initializing HashMap
         this.scanner = new Scanner(System.in);
-        this.coworkingSpaceSoC = new CoworkingSpaceSoC();
+        this.spaces = coworkingSpaceRepo.getSpaces(); // Fetching spaces from the db
 
-
+        // Initializing a default if there's no spaces in db
         if (this.spaces.isEmpty()) {
             this.spaces.add(new CoworkingSpace(1, "Open Space", 1500.0, true));
             this.spaces.add(new CoworkingSpace(2, "Private Room", 2500.0, true));
             this.spaces.add(new CoworkingSpace(3, "Meeting Room", 3000.0, true));
             System.out.println("Default coworking spaces added.");
-            CoworkingStorage.saveSpacesToFile(this.spaces);
+
+            this.spaces.forEach(coworkingSpaceRepo::saveSpace); // Saving to the db
         }
     }
-
 
     public void addSpace() {
 
@@ -68,7 +69,7 @@ public class AdminService <T extends Reservations>{
 
         CoworkingSpace newSpace = new CoworkingSpace(ID, type, price, true);
         spaces.add(newSpace);
-        CoworkingStorage.saveSpacesToFile(spaces);
+        System.out.println("Space added!");
     }
 
     public void removeSpace() {
@@ -91,9 +92,11 @@ public class AdminService <T extends Reservations>{
             if(spaceToRemove == null) {
                 throw new SpaceNotFoundException("Space with ID: " + ID + " doesn't exist!");
             }
+
+            coworkingSpaceRepo.deleteSpace(spaceToRemove.getSpaceID());
             spaces.remove(spaceToRemove);
-            CoworkingStorage.saveSpacesToFile(spaces);
             System.out.println("Coworking Space Removed Successfully!");
+
         } catch (SpaceNotFoundException e) {
             System.out.println(e.getMessage());
         }
@@ -109,7 +112,7 @@ public class AdminService <T extends Reservations>{
     }
 
     public void viewSpace() {
-        List<CoworkingSpace> spaces = coworkingSpaceSoC.getSpaces();
+        List<CoworkingSpace> spaces = coworkingSpaceRepo.getSpaces();
         if(spaces.isEmpty()) {
             System.out.println("There is no available coworking spaces!");
         } else {
